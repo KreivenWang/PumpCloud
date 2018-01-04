@@ -23,6 +23,9 @@ class Station(models.Model):
     company = models.ForeignKey(Company,verbose_name=u"隶属水司")
     name = models.CharField(max_length=50,verbose_name=u"名称")
     address = models.CharField(max_length=100,verbose_name=u"地址")
+    longitude = models.FloatField(blank=True,verbose_name=u"经度",default=0)
+    latitude = models.FloatField(blank=True,verbose_name=u"纬度",default=0)
+    contact = models.CharField(blank=True,max_length=50,verbose_name=u"联系方式")
     image = models.ImageField(upload_to="station/%Y/%m",max_length=50,verbose_name=u"图片", null=True, blank=True)
 
     class Meta:
