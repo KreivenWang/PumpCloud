@@ -1,0 +1,156 @@
+*{
+    margin: auto;
+    padding: auto;
+}
+clear{
+    clear: both;
+}
+ul li
+{
+    list-style-type:none;
+}
+
+/*a:link {color: black; text-decoration:none;}*/
+/*a:visited {color: black;text-decoration:none;}*/
+/*a:hover {color: black; text-decoration:none;}*/
+/*a:active {color: black;}*/
+
+.top{
+    height: 100px;
+    width: 100%;
+}
+
+.main{
+    margin-top: 20px;
+    width: 100%;
+}
+
+.main-select{
+    background-color: #2196F3;
+    width: 80%;
+    height: 60px;
+}
+.main-select p{
+    padding-left: 50px;
+    font-weight: bold;
+    float: left;
+    line-height: 60px;
+}
+.main-select ul{
+    float: left;
+}
+.main-select ul li{
+    text-align: center;
+    float: left;
+    width: 120px;
+}
+.main-select ul li .li-all{
+}
+.main-select ul li a{
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    line-height: 60px;
+}
+.main-select ul li a{
+    color: white;
+}
+.main-select ul li a:hover {color: red;}
+
+.main-select .selected{
+    color: blue;
+    text-decoration: underline;
+}
+
+.main-container{
+    width: 80%;
+    border-bottom: 1px #818181 dashed;
+    border-left: 1px #818181 dashed;
+    border-right: 1px #818181 dashed;
+    margin-bottom: 50px;
+}
+.main-device{
+    width: 100%;
+    padding-top: 20px;
+}
+.main-device ul{
+    clear: both;
+    padding-left: 50px;
+    padding-top: 20px;
+}
+.main-device ul li{
+    clear: both;
+    padding-right: 20px;
+    margin-bottom: 20px;
+}
+
+.main-device ul li a{
+    padding: 10px;
+}
+.main-device ul li a p{
+    float: left;
+    margin-right: 20px;
+    overflow: visible;
+}
+.main-device ul li a:hover {color: red;}
+
+
+/*分页*/
+.pageturn {
+    clear: both;
+    height: 30px;
+    margin: 20px auto;
+    display: table;
+    text-align: center;
+}
+.pageturn .pagelist {
+    display: table-cell;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.pageturn li {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+    float: left;
+    text-align: center;
+}
+.pageturn li:first-child {
+    margin-left: 0;
+}
+
+.pageturn li:hover a, .pageturn .active a {
+    background: #2196F3;
+    color: #fff;
+    border-color: #eaeaea;
+}
+
+.pageturn a {
+    border: 1px solid #eaeaea;
+    display: block;
+    height: 28px;
+    color: black;
+}
+
+.pageturn .long {
+    width: 70px;
+}
+
+.pageturn .none a {
+    border: 0;
+}
+
+.pageright {
+    float: right;
+    width: auto;
+    display: inline;
+    clear: none;
+    margin-top: 10px;
+}
+
+
+/*pump*/
+.main .pump_list{
+
+}

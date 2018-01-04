@@ -1,0 +1,226 @@
+
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+{% block title %} 机泵健康诊断系统 {% endblock %}
+
+ {% block container %}
+     <div data-options="region:'west',split:true" title="机泵列表" style="width:200px;">
+         <div class="easyui-accordion" data-options="fit:true,border:false">
+             <ul class="easyui-tree">
+                 {% for cmp in all_company %}
+                     <li>
+                         <span>{{ cmp.name }}</span>
+                         <ul>
+                             {% for sta in all_station %}
+                                 {% ifequal cmp.id sta.company_id %}
+                                     <li>
+                                         <span>{{ sta.name }}</span>
+                                         <ul>
+                                             {% for pump in all_pump %}
+                                                 {% ifequal sta.id pump.station_id %}
+                                                     <li ><span><a onclick="doSearchFailure({{ pump.id }})">{{ pump.name }}</a></span></li>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </ul>
+                                     </li>
+                                 {% endifequal %}
+                             {% endfor %}
+                         </ul>
+                     </li>
+                 {% endfor %}
+             </ul>
+         </div>
+     </div>
+     <div id = "right" data-options="region:'center',title:'机泵故障列表',iconCls:'icon-ok'">
+         <div id ="test1" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+             <div id="datatest" title="数据" style="padding:5px">
+                 <table id="tblFailureList" class="easyui-datagrid"  url="" data-options="rownumbers:true,pagination:true,method:'get',singleSelect:true,fit:true">
+                     <thead>
+                         <tr>
+                             <th data-options="field:'CompCode'" width="300">设备编号</th>
+                             <th data-options="field:'DisplayText'" width="300">故障描述</th>
+                             <th data-options="field:'RtDatas'" width="350">故障出现频谱图</th>
+                         </tr>
+                     </thead>
+                 </table>
+             </div>
+         </div>
+     </div>
+
+{% endblock %}
+{% block custom_js %}
+
+<script type="text/javascript">
+    $(function () {
+        var tblFailureListObj;
+        var tblFailureList;
+    });
+    function doSearchFailure(id) {
+        loadFailureList(id);
+    }
+    function showSpectrum() {
+        alert("showSpectrum");
+    }
+    function loadFailureList(id) {
+        var post_data = {
+            "id": id,
+        };
+        {#var list = {{ List|safe }};#}
+         $.get("{% url 'loadFailureList' %}",post_data, function(data){
+             var result = data;
+             var html = "";
+             var i = 0;
+             var datas = [];
+             for(var da in data){
+                 var res = data[i++];
+                 datas.push(res);
+             }
+             $("#tblFailureList").datagrid({
+                 columns: [[
+                     { field: 'CompCode', title: "设备编号", width: 300, sortable: true },
+                     { field: 'DisplayText', title: "故障描述", width: 300, sortable: true },
+                     {field: 'RtDatas', title: "故障频谱图", width: 350, sortable: false, formatter: function (RtDatas) {
+                         {#return '<a style="color:#EB4F38;font-weight:bolder;" href="#" onclick="showSpectrum()">'+RtDatas+'</a>';#}
+                          return RtDatas;
+                     }},
+                  ]],
+                  pageSize: 20
+              });
+            var pager = $("#tblFailureList").datagrid("getPager");
+            var page_Size = $("#tblFailureList").datagrid("options").pageSize;;
+            $("#tblFailureList").datagrid("loadData", datas.slice(0, page_Size));
+            pager.pagination({
+                total:datas.length,
+                onSelectPage:function (pageNo, pageSize) {
+                    var start = (pageNo - 1) * pageSize;
+                    var end = start + pageSize;
+                    $("#tblFailureList").datagrid("loadData", datas.slice(start, end));
+                    pager.pagination('refresh', {
+                        total:data.length,
+                        pageNumber:pageNo
+                    });
+                }
+            });
+         });
+    }
+</script>
+{% endblock %}
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>机泵健康诊断系统</title>#}
+{##}
+{##}
+{#    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css">#}
+{#    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css">#}
+{#    <script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script>#}
+{#    <script type="text/javascript" src="/static/easyui/jquery.min.js"></script>#}
+{##}
+{#    <link rel="stylesheet" type="text/css" href="/static/css/css.css">#}
+{#    <script type="text/javascript" src="/static/js/js.js"></script>#}
+{##}
+{#</head>#}
+{#<body>#}
+{#    <img src="/static/images/bg1.jpg" style="position: absolute; top: 0; z-index: -1000; width: 100%; height: 100%; opacity: 0.9;"/>#}
+{#    <div class="top">#}
+{#        <p>Hello,this is index page</p>#}
+{#    </div>#}
+{#    <div class="container">#}
+{#        <div class="container-left">#}
+{#            <p>container-left</p>#}
+{#            <ul class="easyui-tree">#}
+{#                {% for cmp in all_company %}#}
+{#                    <li>#}
+{#                        <span>{{ cmp.name }}</span>#}
+{#                        <ul>#}
+{#                            {% for sta in all_station %}#}
+{#                                {% ifequal cmp.id sta.company_id %}#}
+{#                                    <li>#}
+{#                                        <span>{{ sta.name }}</span>#}
+{#                                        <ul>#}
+{#                                            {% for pump in all_pump %}#}
+{#                                                {% ifequal sta.id pump.station_id %}#}
+{#                                                    <li><span>{{ pump.name }}</span></li>#}
+{#                                                    <div style="display: none" onclick="doSearchFailure()">{{ pump.id }}</div>#}
+{#                                                {% endifequal %}#}
+{#                                            {% endfor %}#}
+{#                                        </ul>#}
+{#                                    </li>#}
+{#                                {% endifequal %}#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
+{##}
+{#        <div class="container-right">#}
+{#            <p>container-right</p>#}
+{#            <div>#}
+{#                {% for cmp in all_company %}#}
+{#                    {{ cmp.address }}#}
+{#                    {{ cmp.name }}#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#            <div class="fault-list">#}
+{#                <table class="easyui-datagrid" style="width:100%;height:auto;">#}
+{#                    <thead>#}
+{#                        <tr>#}
+{#                            <th field="CompCode" width="200" rowspan="2">设备编号</th>#}
+{#                            <th field="DisplayText" width="300" rowspan="2">故障描述</th>#}
+{#                            <th field="RtDatas" width="150" rowspan="2">故障频谱图</th>#}
+{#                        </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                        {% for fa in failure %}#}
+{#                            <tr>#}
+{#                                <td>{{ fa.CompCode }}</td>#}
+{#                                <td>{{ fa.DisplayText }}</td>#}
+{#                                <td>{{ fa.RtDatas }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    </tbody>#}
+{#                </table>#}
+{#                <table id="tblFailureList"></table>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</body>#}
+{#</html>#}
+{##}
+{#<script type="text/javascript">#}
+{#    $(function () {#}
+{#        var tblFailureListObj = $("#tblFailureList");#}
+{#        var tblFailureList = tblFailureListObj.datagrid({#}
+{#            rownumbers: true,#}
+{#            singleSelect: true,#}
+{#            toolbar: '#list-toolbar',#}
+{#            pagination: true,#}
+{#            fit: true,#}
+{#            border: false,#}
+{#            pageSize: 20,#}
+{#            columns: [[#}
+{#                // {field: 'MeterId', title: "详细", width: 80, sortable: false, align: 'center', formatter: function (MeterId) {#}
+{#                //     return '<a style="color:#EB4F38;font-weight:bolder;" href="#" onclick="window.parent.openDetailView(' + MeterId + ')">详情</a>';#}
+{#                // }},#}
+{#                { field: 'CompCode', title: "设备编号", width: 120, sortable: true },#}
+{#                { field: 'DisplayText', title: "故障描述", width: 100, sortable: true },#}
+{#                {field: 'RtDatas', title: "故障频谱图", width: 80, sortable: false, align: 'center', formatter: function (RtDatas) {#}
+{#                    return '<a style="color:#EB4F38;font-weight:bolder;" href="#" onclick="showSpectrum()">RtDatas</a>';#}
+{#                }},#}
+{#            ]],#}
+{#            url: "{% url 'FailureList' %}"#}
+{#        });#}
+{#    });#}
+{#    function doSearchFailure() {#}
+{#        alert("doSearchFailure");#}
+{#    }#}
+{#    function showSpectrum() {#}
+{#        alert("showSpectrum");#}
+{#    }#}
+{#</script>#}

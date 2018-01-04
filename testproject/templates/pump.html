@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/css.css'%}">#}
+
+    <link rel="stylesheet" type="text/css" href="{%  static  'css/custom-min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%  static  'css/plugin-min.css'%}">
+
+{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/materialize.css'%}">#}
+{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/style.css'%}">#}
+{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/common.css'%}">#}
+{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/font-awesome.min.css'%}">#}
+{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/materialize.min.css'%}">#}
+
+{#    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>#}
+
+</head>
+<body>
+    <div class="navbar-fixed">
+        <nav id="nav_f" class="default_color" role="navigation">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" id="logo-container" class="brand-logo fix-a" style="font-size: 24px">机泵云</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="fix-a" href="#intro" style="font-size: 14px">&nbsp功能简介&nbsp</a></li>
+                        <li><a class="fix-a" href="#device">&nbsp在线泵站&nbsp</a></li>
+                        <li><a class="fix-a" href="#analyse">&nbsp监测分析&nbsp</a></li>
+                        <li><a class="fix-a" href="#contact">&nbsp联系我们&nbsp</a></li>
+                    </ul>
+                    <ul id="nav-mobile" class="side-nav">
+                        <li><a class="fix-a" href="#intro">&nbsp功能简介&nbsp</a></li>
+                        <li><a class="fix-a" href="#device">&nbsp在线泵站&nbsp</a></li>
+                        <li><a class="fix-a" href="#analyse">&nbsp监测分析&nbsp</a></li>
+                        <li><a class="fix-a" href="#contact">&nbsp联系我们&nbsp</a></li>
+                    </ul>
+                    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="main">
+        <div class="pump_list clear" style="width: 80%; height:auto;overflow: hidden; ">
+            <div class="pump" style="width: 30%; height:auto; float: left;margin: 1.5%; background-color: #eeeeee;padding-bottom: 10px;">
+                <img src="{% static 'images/pp.png'%}" style="width: 100%" />
+                <div style="float: left">
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">机组名称:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">隶属泵站:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">状态:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">是否运行:</p>
+                </div>
+                <div  style="float: left;margin-left: 2em;">
+                    <p>#1</p>
+                    <p>泰和水厂</p>
+                    <p>在线</p>
+                    <p>是</p>
+                </div>
+            </div>
+            <div class="pump" style="width: 30%; height:auto; float: left;margin: 1.5%; background-color: #eeeeee;padding-bottom: 10px;">
+                <img src="{% static 'images/pp.png'%}" style="width: 100%" />
+                <div style="float: left">
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">机组名称:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">隶属泵站:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">状态:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">是否运行:</p>
+                </div>
+                <div  style="float: left;margin-left: 2em;">
+                    <p>#1</p>
+                    <p>泰和水厂</p>
+                    <p>在线</p>
+                    <p>是</p>
+                </div>
+            </div>
+            <div class="pump" style="width: 30%; height:auto; float: left;margin: 1.5%; background-color: #eeeeee;padding-bottom: 10px;">
+                <img src="{% static 'images/pp.png'%}" style="width: 100%" />
+                <div style="float: left">
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">机组名称:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">隶属泵站:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">状态:</p>
+                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">是否运行:</p>
+                </div>
+                <div  style="float: left;margin-left: 2em;">
+                    <p>#1</p>
+                    <p>泰和水厂</p>
+                    <p>在线</p>
+                    <p>是</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{#    <div class="bottom">#}
+{#        <p>隶属泵站:</p>#}
+{#        <ul>#}
+{#            <li class=""><a href="?" class="{% ifequal "" station_id%}selected {% endifequal %}" >全部</a></li>#}
+{#            {% for sta in all_station %}#}
+{#                <li><a href="?sta={{ sta.id }}" class="{% ifequal station_id sta.id|stringformat:'i' %}selected{% endifequal %}">{{ sta.name }}</a></li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    </div>#}
+</body>
+
+    <script type="text/javascript" src="{% static 'js/custom-min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/plugin-min.js'%}"></script>
+</html>
