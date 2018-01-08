@@ -12,15 +12,15 @@ class CompanyAdmin(object):
 
 
 class StationAdmin(object):
-    list_display = ['name', 'company', 'address']
-    search_fields = ['name', 'company', 'address']
-    list_filter = ['name', 'company__name', 'address']
+    list_display = ['name', 'company', 'address', 'contact']
+    search_fields = ['name', 'company', 'address', 'contact']
+    list_filter = ['name', 'company', 'address']
 
 
 class PumpAdmin(object):
-    list_display = ['name', 'pumpcode', 'station', 'status', 'running']
-    search_fields = ['name', 'pumpcode', 'station', 'status', 'running']
-    list_filter = ['name', 'pumpcode', 'station', 'status', 'running']
+    list_display = ['name','station', 'beginUseDate', 'pumpProductType', 'motorProductType' ,'pumpPublishCode','pumpPublishDate','motorPublishCode','motorPublishDate', 'status']
+    search_fields = ['name', 'station__name', 'status']
+    list_filter = ['name', 'station__name', 'status']
 
 
 # class SpectrumAdmin(object):
