@@ -21,7 +21,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 
 from pump.views import CompanyView,loadFailureList,PumpListView,PumpView
-from spectrum.views import FaultListView
+from spectrum.views import FaultListView,FaultView,SpectrumView
 
 import xadmin
 # xadmin.autodiscover()
@@ -31,11 +31,13 @@ import xadmin
 #     url(r'^xadmin/', xadmin.site.urls),
 # ]
 urlpatterns = [
-    url(r'^xadmin/', xadmin.site.urls),
+    url(r'^xadmin/', xadmin.site.urls,name="xadmin"),
     url('^$', CompanyView.as_view(), name="index"),
     url('^loadFailureList/$', loadFailureList.as_view(), name="loadFailureList"),
     url('^pumpList/$',PumpListView.as_view(), name="pumpList"),
-    url('^faultList/(?P<org_id>\d+)/$',FaultListView.as_view(), name="faultList"),
-    url('^pump/$',PumpView.as_view(), name="pump"),
+    url('^faultList/$',FaultListView.as_view(), name="faultList"),
 
+    url('^pump/$',PumpView.as_view(), name="pump"),
+    # url('^fault/(?P<id>\d+)/$',FaultView.as_view(), name="fault"),
+    url('^spectrum/(?P<id>\d+)/$',SpectrumView.as_view(), name="spectrum"),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

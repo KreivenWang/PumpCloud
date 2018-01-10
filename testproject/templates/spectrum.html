@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>频谱图</title>
+    <link rel="stylesheet" type="text/css" href="{%  static  'css/css.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%  static  'css/custom-min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%  static  'css/plugin-min.css'%}">
+
+    <script type="text/javascript" src="{% static 'js/custom-min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/plugin-min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
+</head>
+
+<body>
+    <div class="navbar-fixed">
+        <nav id="nav_f" class="default_color" role="navigation">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" id="logo-container" class="brand-logo fix-a" style="font-size: 24px">机泵云</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="fix-a" href="/xadmin" style="font-size: 14px">&nbsp后台管理>>&nbsp</a></li>
+                    </ul>
+                    <ul id="nav-mobile" class="side-nav">
+                        <li><a class="fix-a" href="/xadmin">&nbsp后台管理>>&nbsp</a></li>
+                    </ul>
+                    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--
+    <div class="navbar-fixed">
+        <nav id="nav_f" class="default_color" role="navigation">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" id="logo-container" class="brand-logo fix-a">振动频谱高级分析</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li class="active"><a class="fix-a" id="timea">时间 <span class="sr-only">(current)</span></a></li>
+                        <li><a class="fix-a" id="guida">GUID</a></li>
+                        <li><a class="fix-a" id="posa">位置</a></li>
+                        <li><a class="fix-a" id="typea">类型</a></li>
+                        <li>
+                            <input id="specIdTb" type="text" placeholder="请输入频谱编号">
+                        </li>
+                        <li><a class="fix-a" id="submitBtn" href="javascript:void(0);">查询</a></li>
+                    </ul>
+                    <ul id="nav-mobile" class="side-nav">
+                        <li class="active"><a class="fix-a" id="timea">时间 <span class="sr-only">(current)</span></a></li>
+                        <li><a class="fix-a" id="guida">GUID</a></li>
+                        <li><a class="fix-a" id="posa">位置</a></li>
+                        <li><a class="fix-a" id="typea">类型</a></li>
+                    </ul>
+                    <a href="#" data-activates="nav-mobile" class="button-collapse fix-a"><i class="mdi-navigation-menu"></i></a>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    -->
+    <div id="chart1" style="position:absolute;width: 100%;height: 40%; top:10%">Loading</div>
+    <div id="chart2" style="position:absolute;width: 100%;height: 40%; bottom:2%">Loading</div>
+
+</body>
+{#    <script type="text/javascript" src="{% static  'js/drawSpec.js'%}"></script>#}
+    <script type="text/javascript">
+        let chart1 = echarts.init(document.getElementById('chart1'));
+        let chart2 = echarts.init(document.getElementById('chart2'));
+        echarts.connect([chart1, chart2]);
+        let grid = {
+            left: '3%',
+            right: '4%',
+            bottom: '14%',
+            containLabel: true
+        };
+        var data1 = "{{ dataStr }}";
+        var data2 = "{{ featureStr }}"
+        {#debugger;#}
+        $(function () {
+            setChart1(data1);
+            setChart2(data2);
+        });
+
+        function setChart1(data) {
+            let dataArr = data.split(',');
+            var i = 0;
+            chart1.setOption(option = {
+                title: {
+                    text: ''
+                },
+                grid,
+                tooltip: {
+                    //trigger: 'axis',
+                    axisPointer:{
+                        show: true,
+                        type : 'cross',
+                        lineStyle: {
+                            type : 'dashed',
+                            width : 1
+                        }
+                    }
+                },
+                xAxis: {
+                    data: dataArr.map(function (item) {
+                        return i++;
+                    })
+                },
+                yAxis: {
+                    splitLine: {
+                        show: false
+                    }
+                },
+                toolbox: {
+                    left: 'center',
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [{
+                    startValue: '0'
+                }, {
+                    type: 'inside'
+                }],
+                visualMap: {
+                    top: -1000,
+                    right: -1000,
+                    pieces: [{
+                        gt: 0,
+                        lte: 0.05,
+                        color: '#096'
+                    }, {
+                        gt: 0.05,
+                        lte: 0.1,
+                        color: '#ffde33'
+                    }, {
+                        gt: 0.1,
+                        lte: 0.15,
+                        color: '#ff9933'
+                    }, {
+                        gt: 0.15,
+                        lte: 0.2,
+                        color: '#cc0033'
+                    }, {
+                        gt: 0.2,
+                        lte: 0.3,
+                        color: '#660099'
+                    }, {
+                        gt: 0.3,
+                        color: '#7e0023'
+                    }],
+                    outOfRange: {
+                        color: '#999'
+                    }
+                },
+                series: {
+                    name: '频率',
+                    type: 'line',
+                    data: dataArr,
+                    //线
+                    markLine: {
+                        silent: true,
+                        data: [{
+                            yAxis: 0.05
+                        }, {
+                            yAxis: 0.1
+                        }, {
+                            yAxis: 0.15
+                        }, {
+                            yAxis: 0.2
+                        }, {
+                            yAxis: 0.3
+                        }]
+                    }
+                }
+            });
+        }
+        function setChart2(data) {
+            let serLegends = [
+                { k: 'RPS', v: 1, ser: [] },
+                { k: 'BPFI', v: 2, ser: [] },
+                { k: 'BPFO', v: 4, ser: [] },
+                { k: 'BSF', v: 8, ser: [] },
+                { k: 'FTF', v: 16, ser: [] },
+                { k: 'BPF', v: 32, ser: [] }
+            ];
+
+            let dataArr = data.split(',');
+
+            for (let n = 0; n < dataArr.length; n++) {
+                let features = dataArr[n].split('|');
+                features.forEach(function (ft) {
+                    let ftName = parseInt(ft.split('-')[0]);
+                    let ftRatio = parseInt(ft.split('-')[1]);
+                    let foundSerLg = serLegends.find(sl => sl.v == ftName);
+                    if (foundSerLg != null) {
+                        foundSerLg.ser.push([n, ftRatio]);
+                    }
+                    // if (ftName == '1') {
+                    //     ser1.push([n, ftRatio]);
+                    // } else if (ftName == '2') {
+                    //     ser2.push([n, ftRatio]);
+                    // } else if (ftName == '4') {
+                    //     ser3.push([n, ftRatio]);
+                    // } else if (ftName == '8') {
+                    //     ser4.push([n, ftRatio]);
+                    // } else if (ftName == '16') {
+                    //     ser5.push([n, ftRatio]);
+                    // } else if (ftName == '32') {
+                    //     ser6.push([n, ftRatio]);
+                    // }
+                }, this);
+            }
+
+            let sers = [];
+            serLegends.forEach(function (lg) {
+                sers.push({
+                    name: lg.k,
+                    type: 'scatter',
+                    symbolSize: 5,
+                    // label: {
+                    //     normal: {
+                    //         show: true,
+                    //         position: 'insideRight'
+                    //     }
+                    // },
+                    data: lg.ser
+                })
+            }, this);
+
+            console.log(sers);
+
+            let i = 0;
+            chart2.setOption(option = {
+                tooltip: {
+                    //trigger: 'axis',
+                    //showDelay: 0,
+                    formatter: function (params) {
+                        if (params.value.length > 1) {
+                            return `点${params.value[0]}<br/>${params.value[1]}倍 ${params.seriesName}`;
+                        }
+                    },
+                    axisPointer:{
+                        show: true,
+                        type : 'cross',
+                        lineStyle: {
+                            type : 'dashed',
+                            width : 1
+                        }
+                    }
+                },
+                legend: {
+                    data: serLegends.map(lg => {
+                        return lg.k
+                    }),
+                    left: 'center'
+                },
+                grid,
+                yAxis: {
+                    type: 'value'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: dataArr.map(function (item) {
+                        return i++;
+                    })
+                },
+                dataZoom: [{
+                    startValue: '0'
+                }, {
+                    type: 'inside'
+                }],
+                series: sers
+            });
+        }
+    </script>
+</html>

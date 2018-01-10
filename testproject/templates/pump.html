@@ -3,19 +3,14 @@
 {% load staticfiles %}
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/css.css'%}">#}
-
+    <title>机泵列表页</title>
     <link rel="stylesheet" type="text/css" href="{%  static  'css/custom-min.css'%}">
     <link rel="stylesheet" type="text/css" href="{%  static  'css/plugin-min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%  static  'css/css.css'%}">
 
-{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/materialize.css'%}">#}
-{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/style.css'%}">#}
-{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/common.css'%}">#}
-{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/font-awesome.min.css'%}">#}
-{#    <link rel="stylesheet" type="text/css" href="{%  static  'css/materialize.min.css'%}">#}
-
-{#    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>#}
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/custom-min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/plugin-min.js'%}"></script>
 
 </head>
 <body>
@@ -25,83 +20,88 @@
                 <div class="nav-wrapper">
                     <a href="#" id="logo-container" class="brand-logo fix-a" style="font-size: 24px">机泵云</a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a class="fix-a" href="#intro" style="font-size: 14px">&nbsp功能简介&nbsp</a></li>
-                        <li><a class="fix-a" href="#device">&nbsp在线泵站&nbsp</a></li>
-                        <li><a class="fix-a" href="#analyse">&nbsp监测分析&nbsp</a></li>
-                        <li><a class="fix-a" href="#contact">&nbsp联系我们&nbsp</a></li>
+                        <li><a class="fix-a" href="/xadmin" style="font-size: 14px">&nbsp后台管理>>&nbsp</a></li>
                     </ul>
                     <ul id="nav-mobile" class="side-nav">
-                        <li><a class="fix-a" href="#intro">&nbsp功能简介&nbsp</a></li>
-                        <li><a class="fix-a" href="#device">&nbsp在线泵站&nbsp</a></li>
-                        <li><a class="fix-a" href="#analyse">&nbsp监测分析&nbsp</a></li>
-                        <li><a class="fix-a" href="#contact">&nbsp联系我们&nbsp</a></li>
+                        <li><a class="fix-a" href="/xadmin">&nbsp后台管理>>&nbsp</a></li>
                     </ul>
                     <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                 </div>
             </div>
         </nav>
     </div>
+
+    <!--
     <div class="main">
-        <div class="pump_list clear" style="width: 80%; height:auto;overflow: hidden; ">
-            <div class="pump" style="width: 30%; height:auto; float: left;margin: 1.5%; background-color: #eeeeee;padding-bottom: 10px;">
-                <img src="{% static 'images/pp.png'%}" style="width: 100%" />
-                <div style="float: left">
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">机组名称:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">隶属泵站:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">状态:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">是否运行:</p>
+        <div class="pump_list clear">
+            <h5>机泵列表</h5>
+            {% for pump in all_pump %}
+                <div class="pump">
+                    <img src="{% static 'images/pp.png'%}"/>
+                    <div class="pump_part" style="height: 130px;">
+                        <div class="pump_part1"  style="height: 28px;">
+                            <p>{{ pump.name }}</p>
+                            <p>{{ pump.station }}</p>
+                        </div>
+                        <div class="pump_part1" style="height: 28px;">
+                            <p class="{% ifequal pump.status "online" %}yes{% else %}no{% endifequal %}">●</p>
+                            <p>01-04 15:01</p>
+                        </div>
+                        <div style="margin-left: 2em;overflow: hidden; margin-bottom: 5px;">
+                            <h6 style=" margin:0;line-height: 18px; padding-left: 10px; color:#2196F3;font-weight: bold;;width: 90%; overflow: hidden;word-wrap:break-word; word-break:break-all; overflow: hidden;">
+                               {% ifequal pump.DisplayText ''%}暂无故障{% else %}{{ pump.DisplayText }}{% endifequal %}
+                            </h6>
+                        </div>
+                        <div style="margin-left: 2em;overflow: hidden;margin-bottom: 5px;">
+                            <h6 style="  margin:0;line-height: 18px; padding-left: 10px; color:#2196F3;font-weight: bold;width: 90%; overflow: hidden;word-wrap:break-word; word-break:break-all; overflow: hidden;">
+                                {% ifequal pump.RtData ''%}暂无{% else %}<a href="{% url 'spectrum' pump.InferId %}" style="text-decoration:underline;">当前故障频谱{{ pump.InferId }}{{ pump.RtData }}</a>{% endifequal %}
+                            </h6>
+                        </div>
+                    </div>
                 </div>
-                <div  style="float: left;margin-left: 2em;">
-                    <p>#1</p>
-                    <p>泰和水厂</p>
-                    <p>在线</p>
-                    <p>是</p>
+            {% endfor %}
+        </div>
+    </div>
+    -->
+
+    <div class="main">
+        <div class="pump">
+            <h5>机泵列表</h5>
+            {% for pump in all_pump %}
+            <div class="card list">
+                <img src="{% static 'images/pp.png'%}" style=""/>
+                <div class="part1">
+                    <p style=" font-size: 24px;">
+                        <span class="card-title activator grey-text text-darken-4">
+                            {{ pump.station }}{{ pump.name }}<i class="right" style="{% ifequal pump.status "online" %}color:red;{% else %}color:limegreen;{% endifequal %}">●</i>
+                        </span>
+                    </p>
+                </div>
+                <div class="card-reveal part2">
+                    <p class="card-title grey-text text-darken-4">
+                        {{ pump.station }}{{ pump.name }}<i class="mdi-navigation-close right"></i>
+                    </p>
+                    <p style="margin-top: 10px;">{% ifequal pump.DisplayText ''%}暂无故障{% else %}故障：{{ pump.DisplayText }}{% endifequal %}</p>
+                    <p style="margin-top: 10px;">{% ifequal pump.RtData ''%}{% else %}<a class="spectrumLink" href="{% url 'spectrum' pump.InferId %}">当前故障频谱</a>{% endifequal %}</p>
                 </div>
             </div>
-            <div class="pump" style="width: 30%; height:auto; float: left;margin: 1.5%; background-color: #eeeeee;padding-bottom: 10px;">
-                <img src="{% static 'images/pp.png'%}" style="width: 100%" />
-                <div style="float: left">
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">机组名称:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">隶属泵站:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">状态:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">是否运行:</p>
-                </div>
-                <div  style="float: left;margin-left: 2em;">
-                    <p>#1</p>
-                    <p>泰和水厂</p>
-                    <p>在线</p>
-                    <p>是</p>
-                </div>
-            </div>
-            <div class="pump" style="width: 30%; height:auto; float: left;margin: 1.5%; background-color: #eeeeee;padding-bottom: 10px;">
-                <img src="{% static 'images/pp.png'%}" style="width: 100%" />
-                <div style="float: left">
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">机组名称:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">隶属泵站:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">状态:</p>
-                    <p style="margin-left: 2em; color:#2196F3;font-weight: bold;">是否运行:</p>
-                </div>
-                <div  style="float: left;margin-left: 2em;">
-                    <p>#1</p>
-                    <p>泰和水厂</p>
-                    <p>在线</p>
-                    <p>是</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
-{#    <div class="bottom">#}
-{#        <p>隶属泵站:</p>#}
-{#        <ul>#}
-{#            <li class=""><a href="?" class="{% ifequal "" station_id%}selected {% endifequal %}" >全部</a></li>#}
-{#            {% for sta in all_station %}#}
-{#                <li><a href="?sta={{ sta.id }}" class="{% ifequal station_id sta.id|stringformat:'i' %}selected{% endifequal %}">{{ sta.name }}</a></li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    </div>#}
-</body>
+    <div class="bottom" style="z-index:200">
+        <p>隶属泵站:</p>
+        <ul>
+            <li><a href="?" class="{% ifequal station_id "" %}selected{% endifequal %}" style="">全部</a></li>
+            {% for sta in all_station %}
+                <li><a href="?sta={{ sta.id }}" class="{% ifequal station_id sta.id|stringformat:'i' %}selected{% endifequal %}">{{ sta.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 
-    <script type="text/javascript" src="{% static 'js/custom-min.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/plugin-min.js'%}"></script>
+</body>
+<script type="text/css">
+
+</script>
+
 </html>
