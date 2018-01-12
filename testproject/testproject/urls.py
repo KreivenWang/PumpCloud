@@ -32,11 +32,11 @@ import xadmin
 # ]
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls,name="xadmin"),
-    url('^$', CompanyView.as_view(), name="index"),
-    url('^loadFailureList/$', loadFailureList.as_view(), name="loadFailureList"),
-    url('^pumpList/$',PumpListView.as_view(), name="pumpList"),
-    url('^faultList/$',FaultListView.as_view(), name="faultList"),
-
+    # url('^$', CompanyView.as_view(), name="index"),
+    # url('^loadFailureList/$', loadFailureList.as_view(), name="loadFailureList"),
+    # url('^pumpList/$',PumpListView.as_view(), name="pumpList"),
+    # url('^faultList/$',FaultListView.as_view(), name="faultList"),
+    url('^$',PumpView.as_view(), name="pump"),
     url('^pump/$',PumpView.as_view(), name="pump"),
     # url('^fault/(?P<id>\d+)/$',FaultView.as_view(), name="fault"),
     url('^spectrum/(?P<id>\d+)/$',SpectrumView.as_view(), name="spectrum"),

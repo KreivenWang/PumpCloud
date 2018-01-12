@@ -5,7 +5,7 @@ from django.views.generic import View
 from django.db.models import Q
 from django.shortcuts import render
 from .models import InferComboReport,GraphArchives,FaultItemReport
-from pump.models import Pump
+from pump.models import Pump,Company,Station
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import json
 # Create your views here.
@@ -69,6 +69,7 @@ class FaultView(View):
         return render(request, "fault.html", {
             "all_fault":faults
         })
+
 
 class SpectrumView(View):
     def get(self,request,id):
